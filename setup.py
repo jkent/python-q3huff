@@ -1,16 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from distutils.core import Extension, setup
 
 __version__ = '0.1'
 
-huffman_src = ['hufflib.c',
-               'huffman.c',
-               'msg.c',
-               'q_shared.c']
-huffman_dep = ['qcommon.h',
-               'q_shared.h']
+huffman_src = ['src/hufflib.c',
+               'src/huffman.c',
+               'src/msg.c',
+               'src/q_shared.c']
+huffman_dep = ['src/qcommon.h',
+               'src/q_shared.h']
 
 huffman_ext = Extension('q3huff', huffman_src, depends=huffman_dep,
                         extra_compile_args=['-std=c99'])
