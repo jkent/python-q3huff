@@ -247,6 +247,10 @@ Writer_getattro(q3huff_WriterObject *self, PyObject *name)
     result = PyBool_FromLong(self->msgBuf.oob);
     Py_INCREF(result);
   }
+  else if (strcmp(cname, "overflow") == 0) {
+    result = PyBool_FromLong(self->msgBuf.overflowed);
+    Py_INCREF(result);
+  }
   else {
     result = PyObject_GenericGetAttr((PyObject *)self, name);
   }
@@ -282,6 +286,7 @@ Writer_setattro(q3huff_WriterObject *self, PyObject *name, PyObject *value)
 static PyMemberDef Writer_members[] = {
   {"data", -1, 0, READONLY|RESTRICTED, NULL},
   {"oob", -1, 0, RESTRICTED, NULL},
+  {"overflow", -1, 0, READONLY|RESTRICTED, NULL},
   {NULL}
 };
 
