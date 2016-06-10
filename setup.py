@@ -3,7 +3,7 @@
 
 from distutils.core import Extension, setup
 
-__version__ = '0.1'
+__version__ = '0.1.0'
 
 huffman_src = ['src/hufflib.c',
                'src/huffman.c',
@@ -17,7 +17,7 @@ huffman_ext = Extension('q3huff', huffman_src, depends=huffman_dep,
 
 setup(name='q3huff', version = __version__,
       ext_modules = [huffman_ext],
-      description = 'A python wrapper module for huffman code used in ioq3.',
+      description = 'Python 3 C API wrapper for Huffman code found in Quake 3.',
       author = 'Jeff Kent',
       author_email = 'jeff@jkent.net',
       maintainer = 'Jeff Kent',
@@ -25,9 +25,9 @@ setup(name='q3huff', version = __version__,
       url = "https://github.com/jkent/q3huff",
       license = 'GNU GPLv2',
       classifiers = [
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+        'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: C',
         'Programming Language :: Python :: 3',
