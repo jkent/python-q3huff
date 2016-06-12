@@ -3,7 +3,7 @@
 
 from distutils.core import Extension, setup
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 huffman_src = ['src/hufflib.c',
                'src/huffman.c',
