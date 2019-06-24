@@ -9,21 +9,21 @@
 
 PyDoc_STRVAR(Writer__doc__, "Writer()");
 PyDoc_STRVAR(Writer_reset__doc__, "reset()");
-PyDoc_STRVAR(Writer_write_bits__doc__, "write_bits(x, num_bits)");
-PyDoc_STRVAR(Writer_write_char__doc__, "write_char(x)");
-PyDoc_STRVAR(Writer_write_byte__doc__, "write_byte(x)");
-PyDoc_STRVAR(Writer_write_data__doc__, "write_data(x)");
-PyDoc_STRVAR(Writer_write_short__doc__, "write_short(x)");
-PyDoc_STRVAR(Writer_write_long__doc__, "write_long(x)");
-PyDoc_STRVAR(Writer_write_float__doc__, "write_float(f)");
-PyDoc_STRVAR(Writer_write_string__doc__, "write_string(s)");
-PyDoc_STRVAR(Writer_write_bigstring__doc__, "write_bigstring(s)");
-PyDoc_STRVAR(Writer_write_angle__doc__, "write_angle(x)");
-PyDoc_STRVAR(Writer_write_angle16__doc__, "write_angle16(x)");
-PyDoc_STRVAR(Writer_write_delta__doc__, "write_delta(oldV, newV, num_bits)");
-PyDoc_STRVAR(Writer_write_delta_float__doc__, "write_delta_float(oldV, newV)");
-PyDoc_STRVAR(Writer_write_delta_key__doc__, "write_delta_key(key, oldV, newV, num_bits");
-PyDoc_STRVAR(Writer_write_delta_key_float__doc__, "write_delta_key_float(key, oldV, newV)");
+PyDoc_STRVAR(Writer_write_bits__doc__, "write_bits(integer, num_bits)");
+PyDoc_STRVAR(Writer_write_char__doc__, "write_char(integer)");
+PyDoc_STRVAR(Writer_write_byte__doc__, "write_byte(integer)");
+PyDoc_STRVAR(Writer_write_data__doc__, "write_data(bytes)");
+PyDoc_STRVAR(Writer_write_short__doc__, "write_short(integer)");
+PyDoc_STRVAR(Writer_write_long__doc__, "write_long(integer)");
+PyDoc_STRVAR(Writer_write_float__doc__, "write_float(float)");
+PyDoc_STRVAR(Writer_write_string__doc__, "write_string(string)");
+PyDoc_STRVAR(Writer_write_bigstring__doc__, "write_bigstring(string)");
+PyDoc_STRVAR(Writer_write_angle__doc__, "write_angle(float)");
+PyDoc_STRVAR(Writer_write_angle16__doc__, "write_angle16(float)");
+PyDoc_STRVAR(Writer_write_delta__doc__, "write_delta(old_value, new_value, num_bits)");
+PyDoc_STRVAR(Writer_write_delta_float__doc__, "write_delta_float(old_value, new_value)");
+PyDoc_STRVAR(Writer_write_delta_key__doc__, "write_delta_key(key, old_value, new_value, num_bits)");
+PyDoc_STRVAR(Writer_write_delta_key_float__doc__, "write_delta_key_float(key, old_value, new_value)");
 PyDoc_STRVAR(Writer_data__doc__, "output data from write_* functions");
 PyDoc_STRVAR(Writer_oob__doc__, "flag tells if data should be written as huffman compressed or not (oob)");
 PyDoc_STRVAR(Writer_overflow__doc__, "flag that indicates if the output bufer was overflowed");
@@ -61,7 +61,12 @@ Writer_WriteBits(q3huff_WriterObject *self, PyObject *args)
 {
   int value, bits;
 
-  if (!PyArg_ParseTuple(args, "ii", &value, &bits)) {
+  if (!PyArg_ParseTuple(args, "II", &value, &bits)) {
+    return NULL;
+  }
+
+  if (bits < 1 || bits > 32) {
+    PyErr_SetString(PyExc_OverflowError, "num_bits must be => 1 and <= 32");
     return NULL;
   }
 
@@ -74,7 +79,7 @@ Writer_WriteChar(q3huff_WriterObject *self, PyObject *args)
 {
   signed char n;
 
-  if (!PyArg_ParseTuple(args, "b", &n)) {
+  if (!PyArg_ParseTuple(args, "B", &n)) {
     return NULL;
   }
 
@@ -87,7 +92,7 @@ Writer_WriteByte(q3huff_WriterObject *self, PyObject *args)
 {
   unsigned char n;
 
-  if (!PyArg_ParseTuple(args, "B", &n)) {
+  if (!PyArg_ParseTuple(args, "b", &n)) {
     return NULL;
   }
 
@@ -113,12 +118,12 @@ Writer_WriteShort(q3huff_WriterObject *self, PyObject *args)
 {
   short n;
 
-  if (!PyArg_ParseTuple(args, "h", &n)) {
+  if (!PyArg_ParseTuple(args, "H", &n)) {
     return NULL;
   }
 
   MSG_WriteShort(&self->msgBuf, n);
-  Py_RETURN_NONE;
+  Py_RETURN_NONE; 
 }
 
 static PyObject *
@@ -126,7 +131,7 @@ Writer_WriteLong(q3huff_WriterObject *self, PyObject *args)
 {
   int n;
 
-  if (!PyArg_ParseTuple(args, "i", &n)) {
+  if (!PyArg_ParseTuple(args, "I", &n)) {
     return NULL;
   }
 
@@ -204,7 +209,12 @@ Writer_WriteDelta(q3huff_WriterObject *self, PyObject *args)
 {
   int oldV, newV, bits;
 
-  if (!PyArg_ParseTuple(args, "iii", &oldV, &newV, &bits)) {
+  if (!PyArg_ParseTuple(args, "III", &oldV, &newV, &bits)) {
+    return NULL;
+  }
+
+  if (bits < 1 || bits > 32) {
+    PyErr_SetString(PyExc_OverflowError, "num_bits must be => 1 and <= 32");
     return NULL;
   }
 
@@ -230,7 +240,12 @@ Writer_WriteDeltaKey(q3huff_WriterObject *self, PyObject *args)
 {
   int key, oldV, newV, bits;
 
-  if (!PyArg_ParseTuple(args, "iiii", &key, &oldV, &newV, &bits)) {
+  if (!PyArg_ParseTuple(args, "IIII", &key, &oldV, &newV, &bits)) {
+    return NULL;
+  }
+
+  if (bits < 1 || bits > 32) {
+    PyErr_SetString(PyExc_OverflowError, "num_bits must be => 1 and <= 32");
     return NULL;
   }
 
@@ -244,7 +259,7 @@ Writer_WriteDeltaKeyFloat(q3huff_WriterObject *self, PyObject *args)
   int key;
   float oldV, newV;
 
-  if (!PyArg_ParseTuple(args, "iff", &key, &oldV, &newV)) {
+  if (!PyArg_ParseTuple(args, "Iff", &key, &oldV, &newV)) {
     return NULL;
   }
 
@@ -350,25 +365,25 @@ static PyTypeObject q3huff_WriterType = {
  * Reader Object
  */
 
-PyDoc_STRVAR(Reader__doc__, "Reader(data)");
-PyDoc_STRVAR(Reader_reset__doc__, "reset(data)");
+PyDoc_STRVAR(Reader__doc__, "Reader(bytes)");
+PyDoc_STRVAR(Reader_reset__doc__, "reset(bytes)");
 PyDoc_STRVAR(Reader_read_bits__doc__, "read_bits(num_bits) -> integer");
 PyDoc_STRVAR(Reader_read_char__doc__, "read_char() -> integer");
 PyDoc_STRVAR(Reader_read_byte__doc__, "read_byte() -> integer");
 PyDoc_STRVAR(Reader_lookahead_byte__doc__, "lookahead_byte() -> integer");
-PyDoc_STRVAR(Reader_read_data__doc__, "read_data(num_bytes) -> data");
+PyDoc_STRVAR(Reader_read_data__doc__, "read_data(num_bytes) -> bytes");
 PyDoc_STRVAR(Reader_read_short__doc__, "read_short() -> integer");
 PyDoc_STRVAR(Reader_read_long__doc__, "read_long() -> integer");
-PyDoc_STRVAR(Reader_read_float__doc__, "read_float() -> integer");
+PyDoc_STRVAR(Reader_read_float__doc__, "read_float() -> float");
 PyDoc_STRVAR(Reader_read_string__doc__, "read_string() -> string");
 PyDoc_STRVAR(Reader_read_bigstring__doc__, "read_bigstring() -> string");
 PyDoc_STRVAR(Reader_read_string_line__doc__, "read_string_line() -> string");
 PyDoc_STRVAR(Reader_read_angle__doc__, "read_angle() -> float");
 PyDoc_STRVAR(Reader_read_angle16__doc__, "read_angle16() -> float");
-PyDoc_STRVAR(Reader_read_delta__doc__, "read_delta(oldV, num_bits) -> integer");
-PyDoc_STRVAR(Reader_read_delta_float__doc__, "read_delta_float(oldV) -> float");
-PyDoc_STRVAR(Reader_read_delta_key__doc__, "read_delta_key(key, oldV, num_bits) -> integer");
-PyDoc_STRVAR(Reader_read_delta_key_float__doc__, "read_delta_key_float(key, oldV) -u> float");
+PyDoc_STRVAR(Reader_read_delta__doc__, "read_delta(old_value, num_bits) -> integer");
+PyDoc_STRVAR(Reader_read_delta_float__doc__, "read_delta_float(old_value) -> float");
+PyDoc_STRVAR(Reader_read_delta_key__doc__, "read_delta_key(key, old_value, num_bits) -> integer");
+PyDoc_STRVAR(Reader_read_delta_key_float__doc__, "read_delta_key_float(key, old_value) -> float");
 PyDoc_STRVAR(Reader_oob__doc__, "flag tells if data should be read as huffman compressed or not (oob)");
 
 typedef struct {
@@ -428,7 +443,7 @@ Reader_ReadBits(q3huff_ReaderObject *self, PyObject *args)
 {
   int bits, value;
 
-  if (!PyArg_ParseTuple(args, "i", &bits)) {
+  if (!PyArg_ParseTuple(args, "I", &bits)) {
     return NULL;
   }
 
@@ -475,14 +490,19 @@ Reader_ReadData(q3huff_ReaderObject *self, PyObject *args)
   int len;
   char *buf;
 
-  if (!PyArg_ParseTuple(args, "i", &len)) {
+  if (!PyArg_ParseTuple(args, "I", &len)) {
     return NULL;
   }
 
-  result = PyByteArray_FromStringAndSize("", 0);
-  PyByteArray_Resize(result, len);
-  buf = PyBytes_AsString(result);
+  buf = malloc(len);
+  if (!buf) {
+    PyErr_SetString(PyExc_RuntimeError, "unable to allocate buffer");
+    return NULL;
+  }
+
   MSG_ReadData(&self->msgBuf, buf, len);
+  result = PyByteArray_FromStringAndSize(buf, len);
+  free(buf);
   Py_INCREF(result);
   return result;
 }
@@ -573,7 +593,12 @@ Reader_ReadDelta(q3huff_ReaderObject *self, PyObject *args)
   int oldV, bits;
   PyObject *result;
 
-  if(!PyArg_ParseTuple(args, "ii", &oldV, &bits)) {
+  if(!PyArg_ParseTuple(args, "II", &oldV, &bits)) {
+    return NULL;
+  }
+
+  if (bits < 1 || bits > 32) {
+    PyErr_SetString(PyExc_OverflowError, "num_bits must be => 1 and <= 32");
     return NULL;
   }
 
@@ -603,7 +628,12 @@ Reader_ReadDeltaKey(q3huff_ReaderObject *self, PyObject *args)
   int key, oldV, bits;
   PyObject *result;
 
-  if (!PyArg_ParseTuple(args, "iii", &key, &oldV, &bits)) {
+  if (!PyArg_ParseTuple(args, "III", &key, &oldV, &bits)) {
+    return NULL;
+  }
+
+  if (bits < 1 || bits > 32) {
+    PyErr_SetString(PyExc_OverflowError, "num_bits must be => 1 and <= 32");
     return NULL;
   }
 
@@ -718,8 +748,8 @@ static PyTypeObject q3huff_ReaderType = {
  *  Free functions
  */
 
-PyDoc_STRVAR(compress__doc__, "compress(data) -> data");
-PyDoc_STRVAR(decompress__doc__, "decompress(data) -> data");
+PyDoc_STRVAR(compress__doc__, "compress(bytes) -> bytes");
+PyDoc_STRVAR(decompress__doc__, "decompress(bytes) -> bytes");
 
 static PyObject *
 q3huff_Compress(PyObject *self, PyObject *args)
