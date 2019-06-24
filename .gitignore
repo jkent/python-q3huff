@@ -2,7 +2,11 @@
 .project
 .pydevproject
 .settings
+.vscode/
+*.egg-info/
 Debug/
 build/
 dist/
+__pycache__/
 MANIFEST
+

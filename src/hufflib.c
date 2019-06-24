@@ -29,7 +29,7 @@ PyDoc_STRVAR(Writer_oob__doc__, "flag tells if data should be written as huffman
 PyDoc_STRVAR(Writer_overflow__doc__, "flag that indicates if the output bufer was overflowed");
 
 typedef struct {
-  PyObject_HEAD;
+  PyObject_HEAD
   msg_t msgBuf;
   byte buf[MAX_MSGLEN];
 } q3huff_WriterObject;
@@ -48,7 +48,7 @@ Writer_dealloc(q3huff_WriterObject *self)
   Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-PyObject *
+static PyObject *
 Writer_Reset(q3huff_WriterObject *self)
 {
   memset(&self->msgBuf, 0, sizeof(self->msgBuf));
@@ -56,7 +56,7 @@ Writer_Reset(q3huff_WriterObject *self)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteBits(q3huff_WriterObject *self, PyObject *args)
 {
   int value, bits;
@@ -69,7 +69,7 @@ Writer_WriteBits(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteChar(q3huff_WriterObject *self, PyObject *args)
 {
   signed char n;
@@ -82,7 +82,7 @@ Writer_WriteChar(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteByte(q3huff_WriterObject *self, PyObject *args)
 {
   unsigned char n;
@@ -95,7 +95,7 @@ Writer_WriteByte(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteData(q3huff_WriterObject *self, PyObject *args) {
   Py_buffer data;
 
@@ -108,7 +108,7 @@ Writer_WriteData(q3huff_WriterObject *self, PyObject *args) {
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteShort(q3huff_WriterObject *self, PyObject *args)
 {
   short n;
@@ -121,7 +121,7 @@ Writer_WriteShort(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteLong(q3huff_WriterObject *self, PyObject *args)
 {
   int n;
@@ -134,7 +134,7 @@ Writer_WriteLong(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteFloat(q3huff_WriterObject *self, PyObject *args)
 {
   float n;
@@ -147,7 +147,7 @@ Writer_WriteFloat(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteString(q3huff_WriterObject *self, PyObject *args)
 {
   const char *s;
@@ -160,7 +160,7 @@ Writer_WriteString(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteBigString(q3huff_WriterObject *self, PyObject *args)
 {
   const char *s;
@@ -173,7 +173,7 @@ Writer_WriteBigString(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteAngle(q3huff_WriterObject *self, PyObject *args)
 {
   float n;
@@ -186,7 +186,7 @@ Writer_WriteAngle(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteAngle16(q3huff_WriterObject *self, PyObject *args)
 {
   float n;
@@ -199,7 +199,7 @@ Writer_WriteAngle16(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteDelta(q3huff_WriterObject *self, PyObject *args)
 {
   int oldV, newV, bits;
@@ -212,7 +212,7 @@ Writer_WriteDelta(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteDeltaFloat(q3huff_WriterObject *self, PyObject *args)
 {
   float oldV, newV;
@@ -225,7 +225,7 @@ Writer_WriteDeltaFloat(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteDeltaKey(q3huff_WriterObject *self, PyObject *args)
 {
   int key, oldV, newV, bits;
@@ -238,7 +238,7 @@ Writer_WriteDeltaKey(q3huff_WriterObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Writer_WriteDeltaKeyFloat(q3huff_WriterObject *self, PyObject *args)
 {
   int key;
@@ -280,7 +280,7 @@ Writer_getattro(q3huff_WriterObject *self, PyObject *name)
   return result;
 }
 
-int
+static int
 Writer_setattro(q3huff_WriterObject *self, PyObject *name, PyObject *value)
 {
   int result = 0;
@@ -372,7 +372,7 @@ PyDoc_STRVAR(Reader_read_delta_key_float__doc__, "read_delta_key_float(key, oldV
 PyDoc_STRVAR(Reader_oob__doc__, "flag tells if data should be read as huffman compressed or not (oob)");
 
 typedef struct {
-  PyObject_HEAD;
+  PyObject_HEAD
   msg_t msgBuf;
   byte buf[MAX_MSGLEN];
 } q3huff_ReaderObject;
@@ -403,7 +403,7 @@ Reader_dealloc(q3huff_ReaderObject *self)
   Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-PyObject *
+static PyObject *
 Reader_Reset(q3huff_ReaderObject *self, PyObject *args)
 {
   Py_buffer data;
@@ -423,7 +423,7 @@ Reader_Reset(q3huff_ReaderObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadBits(q3huff_ReaderObject *self, PyObject *args)
 {
   int bits, value;
@@ -438,7 +438,7 @@ Reader_ReadBits(q3huff_ReaderObject *self, PyObject *args)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadChar(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -448,7 +448,7 @@ Reader_ReadChar(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadByte(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -458,7 +458,7 @@ Reader_ReadByte(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_LookaheadByte(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -468,7 +468,7 @@ Reader_LookaheadByte(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadData(q3huff_ReaderObject *self, PyObject *args)
 {
   PyObject *result;
@@ -487,7 +487,7 @@ Reader_ReadData(q3huff_ReaderObject *self, PyObject *args)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadShort(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -497,7 +497,7 @@ Reader_ReadShort(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadLong(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -507,7 +507,7 @@ Reader_ReadLong(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadFloat(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -517,7 +517,7 @@ Reader_ReadFloat(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadString(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -527,7 +527,7 @@ Reader_ReadString(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadBigString(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -537,7 +537,7 @@ Reader_ReadBigString(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadStringLine(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -547,7 +547,7 @@ Reader_ReadStringLine(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadAngle(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -557,7 +557,7 @@ Reader_ReadAngle(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadAngle16(q3huff_ReaderObject *self)
 {
   PyObject *result;
@@ -567,7 +567,7 @@ Reader_ReadAngle16(q3huff_ReaderObject *self)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadDelta(q3huff_ReaderObject *self, PyObject *args)
 {
   int oldV, bits;
@@ -582,7 +582,7 @@ Reader_ReadDelta(q3huff_ReaderObject *self, PyObject *args)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadDeltaFloat(q3huff_ReaderObject *self, PyObject *args)
 {
   float oldV;
@@ -597,7 +597,7 @@ Reader_ReadDeltaFloat(q3huff_ReaderObject *self, PyObject *args)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadDeltaKey(q3huff_ReaderObject *self, PyObject *args)
 {
   int key, oldV, bits;
@@ -612,7 +612,7 @@ Reader_ReadDeltaKey(q3huff_ReaderObject *self, PyObject *args)
   return result;
 }
 
-PyObject *
+static PyObject *
 Reader_ReadDeltaKeyFloat(q3huff_ReaderObject *self, PyObject *args)
 {
   int key;
@@ -648,7 +648,7 @@ Reader_getattro(q3huff_ReaderObject *self, PyObject *name)
   return result;
 }
 
-int
+static int
 Reader_setattro(q3huff_WriterObject *self, PyObject *name, PyObject *value)
 {
   int result = 0;
@@ -721,7 +721,7 @@ static PyTypeObject q3huff_ReaderType = {
 PyDoc_STRVAR(compress__doc__, "compress(data) -> data");
 PyDoc_STRVAR(decompress__doc__, "decompress(data) -> data");
 
-PyObject *
+static PyObject *
 q3huff_Compress(PyObject *self, PyObject *args)
 {
   Py_buffer data;
@@ -747,7 +747,7 @@ q3huff_Compress(PyObject *self, PyObject *args)
   return result;
 }
 
-PyObject *
+static PyObject *
 q3huff_Decompress(PyObject *self, PyObject *args)
 {
   Py_buffer data;
@@ -783,7 +783,7 @@ static PyMethodDef q3huff_methods[] = {
 static PyModuleDef HuffmanModule = {
   PyModuleDef_HEAD_INIT,
   "huffman",
-  "A python wrapper for huffman compression used in ioq3.",
+  "A python wrapper for huffman compression used in ioquake3.",
   -1,
   q3huff_methods,
   NULL, NULL, NULL, NULL

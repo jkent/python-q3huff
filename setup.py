@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from distutils.core import Extension, setup
+from setuptools import Extension, setup
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 huffman_src = ['src/hufflib.c',
                'src/huffman.c',
@@ -17,12 +17,12 @@ huffman_ext = Extension('q3huff', huffman_src, depends=huffman_dep,
 
 setup(name='q3huff', version = __version__,
       ext_modules = [huffman_ext],
-      description = 'Python 3 C API wrapper for Huffman code found in Quake 3.',
+      description = 'Python 3 C API wrapper for Huffman code found in ioquake3.',
       author = 'Jeff Kent',
       author_email = 'jeff@jkent.net',
       maintainer = 'Jeff Kent',
       maintainer_email = 'jeff@jkent.net',
-      url = "https://github.com/jkent/q3huff",
+      url = "https://github.com/jkent/python-q3huff",
       license = 'GNU GPLv2',
       classifiers = [
         'Development Status :: 4 - Beta',
