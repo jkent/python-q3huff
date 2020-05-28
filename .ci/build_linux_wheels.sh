@@ -2,8 +2,7 @@
 
 set -e
 
-for PYVER in "cp35-cp35m" "cp36-cp36m" "cp37-cp37m" "cp38-cp38m"; do
-  PYBIN="/opt/python/${PYVER}/bin"
+for PYBIN in /opt/python/*/bin; do
   "${PYBIN}/python" -m pip install wheel
   "${PYBIN}/python" setup.py bdist_wheel
 done
