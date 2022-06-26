@@ -277,15 +277,12 @@ Writer_getattro(q3huff_WriterObject *self, PyObject *name)
 
   if (strcmp(cname, "data") == 0) {
     result = PyBytes_FromStringAndSize((char *)self->msgBuf.data, self->msgBuf.cursize);
-    Py_INCREF(result);
   }
   else if (strcmp(cname, "oob") == 0) {
     result = PyBool_FromLong(self->msgBuf.oob);
-    Py_INCREF(result);
   }
   else if (strcmp(cname, "overflow") == 0) {
     result = PyBool_FromLong(self->msgBuf.overflowed);
-    Py_INCREF(result);
   }
   else {
     result = PyObject_GenericGetAttr((PyObject *)self, name);
@@ -448,39 +445,25 @@ Reader_ReadBits(q3huff_ReaderObject *self, PyObject *args)
   }
 
   value = MSG_ReadBits(&self->msgBuf, bits);
-  PyObject *result = PyLong_FromLong(value);
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(value);;
 }
 
 static PyObject *
 Reader_ReadChar(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyLong_FromLong(MSG_ReadChar(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_ReadChar(&self->msgBuf));;
 }
 
 static PyObject *
 Reader_ReadByte(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyLong_FromLong(MSG_ReadByte(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_ReadByte(&self->msgBuf));
 }
 
 static PyObject *
 Reader_LookaheadByte(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyLong_FromLong(MSG_LookaheadByte(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_LookaheadByte(&self->msgBuf));
 }
 
 static PyObject *
@@ -503,95 +486,61 @@ Reader_ReadData(q3huff_ReaderObject *self, PyObject *args)
   MSG_ReadData(&self->msgBuf, buf, len);
   result = PyByteArray_FromStringAndSize(buf, len);
   free(buf);
-  Py_INCREF(result);
   return result;
 }
 
 static PyObject *
 Reader_ReadShort(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyLong_FromLong(MSG_ReadShort(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_ReadShort(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadLong(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyLong_FromLong(MSG_ReadLong(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_ReadLong(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadFloat(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyFloat_FromDouble(MSG_ReadFloat(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyFloat_FromDouble(MSG_ReadFloat(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadString(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyUnicode_FromString(MSG_ReadString(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyUnicode_FromString(MSG_ReadString(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadBigString(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyUnicode_FromString(MSG_ReadBigString(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyUnicode_FromString(MSG_ReadBigString(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadStringLine(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyUnicode_FromString(MSG_ReadStringLine(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyUnicode_FromString(MSG_ReadStringLine(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadAngle(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyFloat_FromDouble(MSG_ReadAngle(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyFloat_FromDouble(MSG_ReadAngle(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadAngle16(q3huff_ReaderObject *self)
 {
-  PyObject *result;
-
-  result = PyFloat_FromDouble(MSG_ReadAngle16(&self->msgBuf));
-  Py_INCREF(result);
-  return result;
+  return PyFloat_FromDouble(MSG_ReadAngle16(&self->msgBuf));
 }
 
 static PyObject *
 Reader_ReadDelta(q3huff_ReaderObject *self, PyObject *args)
 {
   int oldV, bits;
-  PyObject *result;
 
   if(!PyArg_ParseTuple(args, "II", &oldV, &bits)) {
     return NULL;
@@ -602,31 +551,25 @@ Reader_ReadDelta(q3huff_ReaderObject *self, PyObject *args)
     return NULL;
   }
 
-  result = PyLong_FromLong(MSG_ReadDelta(&self->msgBuf, oldV, bits));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_ReadDelta(&self->msgBuf, oldV, bits));
 }
 
 static PyObject *
 Reader_ReadDeltaFloat(q3huff_ReaderObject *self, PyObject *args)
 {
   float oldV;
-  PyObject *result;
 
   if (!PyArg_ParseTuple(args, "f", &oldV)) {
     return NULL;
   }
 
-  result = PyFloat_FromDouble(MSG_ReadDeltaFloat(&self->msgBuf, oldV));
-  Py_INCREF(result);
-  return result;
+  return PyFloat_FromDouble(MSG_ReadDeltaFloat(&self->msgBuf, oldV));
 }
 
 static PyObject *
 Reader_ReadDeltaKey(q3huff_ReaderObject *self, PyObject *args)
 {
   int key, oldV, bits;
-  PyObject *result;
 
   if (!PyArg_ParseTuple(args, "III", &key, &oldV, &bits)) {
     return NULL;
@@ -637,9 +580,7 @@ Reader_ReadDeltaKey(q3huff_ReaderObject *self, PyObject *args)
     return NULL;
   }
 
-  result = PyLong_FromLong(MSG_ReadDeltaKey(&self->msgBuf, key, oldV, bits));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_ReadDeltaKey(&self->msgBuf, key, oldV, bits));
 }
 
 static PyObject *
@@ -647,15 +588,12 @@ Reader_ReadDeltaKeyFloat(q3huff_ReaderObject *self, PyObject *args)
 {
   int key;
   float oldV;
-  PyObject *result;
 
   if (!PyArg_ParseTuple(args, "if", &key, &oldV)) {
     return NULL;
   }
 
-  result = PyLong_FromLong(MSG_ReadDeltaKeyFloat(&self->msgBuf, key, oldV));
-  Py_INCREF(result);
-  return result;
+  return PyLong_FromLong(MSG_ReadDeltaKeyFloat(&self->msgBuf, key, oldV));
 }
 
 static PyObject *
@@ -668,7 +606,6 @@ Reader_getattro(q3huff_ReaderObject *self, PyObject *name)
 
   if (strcmp(cname, "oob") == 0) {
     result = PyBool_FromLong(self->msgBuf.oob);
-    Py_INCREF(result);
   }
   else {
     result = PyObject_GenericGetAttr((PyObject *)self, name);
@@ -757,7 +694,6 @@ q3huff_Compress(PyObject *self, PyObject *args)
   Py_buffer data;
   msg_t msgBuf = {0};
   byte buf[MAX_MSGLEN];
-  PyObject *result;
 
   if (!PyArg_ParseTuple(args, "y*", &data)) {
     return NULL;
@@ -772,9 +708,7 @@ q3huff_Compress(PyObject *self, PyObject *args)
   msgBuf.data = buf;
   msgBuf.maxsize = sizeof(buf);
   Huff_Compress(&msgBuf, 0);
-  result = PyBytes_FromStringAndSize((char *)msgBuf.data, msgBuf.cursize);
-  Py_INCREF(result);
-  return result;
+  return PyBytes_FromStringAndSize((char*)msgBuf.data, msgBuf.cursize);
 }
 
 static PyObject *
@@ -783,7 +717,6 @@ q3huff_Decompress(PyObject *self, PyObject *args)
   Py_buffer data;
   msg_t msgBuf = {0};
   byte buf[MAX_MSGLEN];
-  PyObject *result;
 
   if (!PyArg_ParseTuple(args, "y*", &data)) {
     return NULL;
@@ -799,9 +732,7 @@ q3huff_Decompress(PyObject *self, PyObject *args)
   msgBuf.maxsize = sizeof(buf);
   msgBuf.data = buf;
   Huff_Decompress(&msgBuf, 0);
-  result = PyBytes_FromStringAndSize((char *)msgBuf.data, msgBuf.cursize);
-  Py_INCREF(result);
-  return result;
+  return PyBytes_FromStringAndSize((char*)msgBuf.data, msgBuf.cursize);;
 }
 
 static PyMethodDef q3huff_methods[] = {
