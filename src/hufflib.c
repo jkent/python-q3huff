@@ -751,7 +751,7 @@ static PyModuleDef HuffmanModule = {
 };
 
 PyMODINIT_FUNC
-PyInit_q3huff(void)
+PyInit_q3huff2(void)
 {
   PyObject *m;
 
