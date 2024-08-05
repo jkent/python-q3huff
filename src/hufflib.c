@@ -123,7 +123,7 @@ Writer_WriteShort(q3huff_WriterObject *self, PyObject *args)
   }
 
   MSG_WriteShort(&self->msgBuf, n);
-  Py_RETURN_NONE; 
+  Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -400,7 +400,7 @@ Reader_init(q3huff_ReaderObject *self, PyObject *args, PyObject *kwds)
   }
 
   memset(&self->msgBuf, 0, sizeof(self->msgBuf));
-  len = data.len > sizeof(self->buf) ? sizeof(self->buf) : data.len;
+  len = data.len > (int) sizeof(self->buf) ? (int) sizeof(self->buf) : data.len;
   memcpy(self->buf, data.buf, len);
   MSG_Init(&self->msgBuf, self->buf, len);
   PyBuffer_Release(&data);
@@ -426,7 +426,7 @@ Reader_Reset(q3huff_ReaderObject *self, PyObject *args)
   }
 
   memset(&self->msgBuf, 0, sizeof(self->msgBuf));
-  len = data.len > sizeof(self->buf) ? sizeof(self->buf) : data.len;
+  len = data.len > (int) sizeof(self->buf) ? (int) sizeof(self->buf) : data.len;
   memcpy(self->buf, data.buf, len);
   MSG_Init(&self->msgBuf, self->buf, len);
   PyBuffer_Release(&data);
@@ -700,7 +700,7 @@ q3huff_Compress(PyObject *self, PyObject *args)
   }
 
   msgBuf.cursize = data.len;
-  if (msgBuf.cursize > sizeof(buf)) {
+  if (msgBuf.cursize > (int) sizeof(buf)) {
     msgBuf.cursize = sizeof(buf);
   }
   memcpy(buf, data.buf, msgBuf.cursize);
@@ -724,7 +724,7 @@ q3huff_Decompress(PyObject *self, PyObject *args)
 
   memset(&msgBuf, 0, sizeof(msgBuf));
   msgBuf.cursize = data.len;
-  if (msgBuf.cursize > sizeof(buf)) {
+  if (msgBuf.cursize > (int) sizeof(buf)) {
     msgBuf.cursize = sizeof(buf);
   }
   memcpy(buf, data.buf, msgBuf.cursize);

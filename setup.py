@@ -3,7 +3,7 @@
 
 from setuptools import Extension, setup
 
-__version__ = '0.4.1'
+__version__ = '0.4.2'
 
 huffman_src = ['src/hufflib.c',
                'src/huffman.c',

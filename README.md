@@ -4,9 +4,6 @@ python-q3huff [![Build Status](https://travis-ci.com/jkent/python-q3huff.svg?bra
   This is a python module for encoding and decoding data using huffman
   compression as found in the ioquake3 source.
 
-## Requirements
-  Python 3.5 or greater
-
 ## Installing the latest release:
     $ pip install q3huff
 
